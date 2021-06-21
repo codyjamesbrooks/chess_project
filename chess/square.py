@@ -1,5 +1,5 @@
 from colorama import Fore, Back, Style
-from empty_space import Empty_Space
+from chess.empty_space import Empty_Space
 
 
 class Square:
