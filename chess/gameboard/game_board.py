@@ -1,5 +1,5 @@
-from chess.square import Square
-from chess.empty_space import Empty_Space
+from chess.gameboard.square import Square
+from chess.gameboard.empty_space import Empty_Space
 
 
 class GameBoard:
@@ -75,7 +75,6 @@ class GameBoard:
         current_col, current_row = list(position)
         row_index = 8 - int(current_row)
         col_index = self.columns.index(current_col)
-
         return self.pieces[row_index][col_index]
 
     def get_pieces_in_col_list(self, column_letter):
