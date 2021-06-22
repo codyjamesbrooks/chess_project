@@ -43,10 +43,6 @@ def populate_test_piece_array(test_board_string):
     return test_pieces
 
 
-test_board_blues = test_boards[0]
-print(populate_test_piece_array(test_board_blues))
-
-
 class TestGameBoard(unittest.TestCase):
     def test_empty_instance(self):
         game_board = GameBoard()
@@ -80,6 +76,7 @@ class TestGameBoard(unittest.TestCase):
                     board_square.cornor_label, f"{correct_col_label}{correct_row_label}"
                 )
 
+    # Just blue pieces
     def test_board_0_pieces_is_the_correct_size(self):
         pieces_array = populate_test_piece_array(test_boards[0])
         game_board = GameBoard(pieces_array)
@@ -130,6 +127,119 @@ class TestGameBoard(unittest.TestCase):
         for row in range(2, 8):
             for col in range(8):
                 self.assertIsNone(game_board.board[row][col].piece.color, None)
+
+    # Just Red pieces
+    def test_board_1_pieces_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[1])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.pieces), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.pieces[row]), 8)
+
+    def test_board_1_board_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[1])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.board), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.board[row]), 8)
+
+    def test_board_1_pieces_array_correct_piece(self):
+        pieces_array = populate_test_piece_array(test_boards[1])
+        game_board = GameBoard(pieces_array)
+        expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        for row in range(0, 6):
+            for col in range(8):
+                self.assertIsInstance(game_board.pieces[row][col], Empty_Space)
+        for col in range(8):
+            self.assertIsInstance(game_board.pieces[6][col], Pawn)
+        for col in range(8):
+            self.assertIsInstance(game_board.pieces[7][col], expected_class[col])
+
+    def test_board_1_board_array_correct_piece(self):
+        pieces_array = populate_test_piece_array(test_boards[1])
+        game_board = GameBoard(pieces_array)
+        expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        for row in range(0, 6):
+            for col in range(8):
+                self.assertIsInstance(game_board.board[row][col], Square)
+                self.assertIsInstance(game_board.board[row][col].piece, Empty_Space)
+        for col in range(8):
+            self.assertIsInstance(game_board.board[6][col], Square)
+            self.assertIsInstance(game_board.board[6][col].piece, Pawn)
+        for col in range(8):
+            self.assertIsInstance(game_board.board[7][col], Square)
+            self.assertIsInstance(game_board.board[7][col].piece, expected_class[col])
+
+    def test_board_1_board_array_piece_color(self):
+        pieces_array = populate_test_piece_array(test_boards[1])
+        game_board = GameBoard(pieces_array)
+        for row in range(0, 6):
+            for col in range(8):
+                self.assertIsNone(game_board.board[row][col].piece.color, None)
+        for row in range(6, 8):
+            for col in range(8):
+                self.assertEqual(game_board.board[row][col].piece.color, "red")
+
+    # Inital Setup
+    def test_board_2_pieces_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.pieces), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.pieces[row]), 8)
+
+    def test_board_2_board_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.board), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.board[row]), 8)
+
+    def test_board_2_pieces_array_correct_piece(self):
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        for row in [0, 7]:
+            for col in range(8):
+                self.assertIsInstance(game_board.pieces[row][col], expected_class[col])
+        for row in [1, 6]:
+            for col in range(8):
+                self.assertIsInstance(game_board.pieces[row][col], Pawn)
+        for row in range(2, 6):
+            for col in range(8):
+                self.assertIsInstance(game_board.pieces[row][col], Empty_Space)
+
+    def test_board_2_board_array_correct_piece(self):
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        for row in [0, 7]:
+            for col in range(8):
+                self.assertIsInstance(game_board.board[row][col], Square)
+                self.assertIsInstance(
+                    game_board.board[row][col].piece, expected_class[col]
+                )
+        for row in [1, 6]:
+            for col in range(8):
+                self.assertIsInstance(game_board.board[row][col], Square)
+                self.assertIsInstance(game_board.board[row][col].piece, Pawn)
+        for row in range(2, 6):
+            for col in range(8):
+                self.assertIsInstance(game_board.board[row][col], Square)
+                self.assertIsInstance(game_board.board[row][col].piece, Empty_Space)
+
+    def test_board_2_board_array_piece_color(self):
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        for row in range(2, 6):
+            for col in range(8):
+                self.assertIsNone(game_board.board[row][col].piece.color, None)
+        for row in range(0, 2):
+            for col in range(8):
+                self.assertEqual(game_board.board[row][col].piece.color, "blue")
+        for row in range(6, 8):
+            for col in range(8):
+                self.assertEqual(game_board.board[row][col].piece.color, "red")
 
 
 if __name__ == "__main__":
