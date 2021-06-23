@@ -14,6 +14,7 @@ from chess.pieces.pawn import Pawn
 from chess.pieces.queen import Queen
 
 from test.test_boards.test_boards import test_boards
+from test.test_boards.test_boards import test_boards_key
 
 test_piece_key = {
     "R": Rook("blue"),
@@ -47,7 +48,7 @@ class TestGameBoard(unittest.TestCase):
     def test_empty_instance(self):
         game_board = GameBoard()
         # Test game_board __init__ method
-        self.assertEqual(game_board.cols, "ABCDEFGH")
+        self.assertEqual(game_board.columns, "ABCDEFGH")
         self.assertIsNotNone(game_board.pieces)
 
     def test_game_board_board_array_empty_instance(self):
@@ -240,6 +241,51 @@ class TestGameBoard(unittest.TestCase):
         for row in range(6, 8):
             for col in range(8):
                 self.assertEqual(game_board.board[row][col].piece.color, "red")
+
+    def test_board_3_pieces_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[3])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.pieces), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.pieces[row]), 8)
+
+    def test_board_3_board_is_the_correct_size(self):
+        pieces_array = populate_test_piece_array(test_boards[3])
+        game_board = GameBoard(pieces_array)
+        self.assertEqual(len(game_board.board), 8)
+        for row in range(8):
+            self.assertEqual(len(game_board.board[row]), 8)
+
+    def test_board_2_get_piece_at_position_method(self): 
+        pieces_array = populate_test_piece_array(test_boards[2])
+        game_board = GameBoard(pieces_array)
+        expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        for color, row in [("blue", 8), ("red", 1)]:
+            for col in list("ABCDEFGH"):
+                royal_loc = f"{col}{row}"
+                col_index = "ABCDEFGH".index(col)
+                self.assertEqual(game_board.get_piece_at_position(royal_loc), expected_class[col_index](color))
+        for color, row in [("blue", 7), ("red", 2)]:
+            for col in list("ABCDEFGH"):
+                pawn_loc = f"{col}{row}"
+                self.assertEqual(game_board.get_piece_at_position(pawn_loc), Pawn(color))
+        for row in range(3, 7):
+            for col in list("ABCDEFGH"): 
+                loc = f"{col}{row}"
+                self.assertEqual(game_board.get_piece_at_position(loc), Empty_Space())
+                
+    # testing get_piece_at_position method
+    def test_board_3_get_piece_at_position_method(self):
+        pieces_array = populate_test_piece_array(test_boards[3])
+        game_board = GameBoard(pieces_array)
+        key = test_boards_key[3]
+        for row in range(8):
+            for col in range(8):
+                col_letter = game_board.columns[col]
+                location = f"{col_letter}{str(8 - row)}"
+                self.assertEqual(game_board.get_piece_at_position(location).name, key[row][col].name)
+
+    
 
 
 if __name__ == "__main__":

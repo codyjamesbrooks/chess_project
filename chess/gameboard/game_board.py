@@ -11,7 +11,7 @@ class GameBoard:
             1: "black",
             2: "white",
         }  # Dict used to apply color to square backgrounds
-        self.cols = "ABCDEFGH"
+        self.columns = "ABCDEFGH"
         self.pieces = pieces
         self.board = []
 
@@ -20,7 +20,7 @@ class GameBoard:
             current_row = []
             for board_column in range(8):
                 square_color = square_colors[(board_column % 2) + (board_row % 2)]
-                square_label = f"{self.cols[board_column]}{8 - board_row}"
+                square_label = f"{self.columns[board_column]}{8 - board_row}"
                 square_piece = self.pieces[board_row][board_column]
                 current_row.append(Square(square_color, square_label, square_piece))
             self.board.append(current_row)
@@ -101,8 +101,8 @@ class GameBoard:
     def get_pieces_by_cols_dict(self):
         # return a dict of the pieces in each col starting at row-8 going to row-1.
         pieces_by_col = {}
-        for col in range(len(self.cols)):
-            pieces_by_col[self.cols[col]] = []
+        for col in range(len(self.columns)):
+            pieces_by_col[self.columns[col]] = []
             for row in range(8):
-                pieces_by_col[self.cols[col]].append(self.pieces[row][col].name)
+                pieces_by_col[self.columns[col]].append(self.pieces[row][col].name)
         return pieces_by_col
