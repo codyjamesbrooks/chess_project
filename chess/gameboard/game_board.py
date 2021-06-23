@@ -44,9 +44,9 @@ class GameBoard:
         # return a dict of the pieces in each row from left to right order.
         pieces_by_row = {}
         for row in range(8, 0, -1):
-            pieces_by_row[row] = []
+            pieces_by_row[str(row)] = []
             for piece in self.pieces[8 - row]:
-                pieces_by_row[row].append(piece.name)
+                pieces_by_row[str(row)].append(piece)
         return pieces_by_row
 
     def get_pieces_by_cols_dict(self):
@@ -55,7 +55,7 @@ class GameBoard:
         for col in range(len(self.columns)):
             pieces_by_col[self.columns[col]] = []
             for row in range(8):
-                pieces_by_col[self.columns[col]].append(self.pieces[row][col].name)
+                pieces_by_col[self.columns[col]].append(self.pieces[row][col])
         return pieces_by_col
 
     def rules_sidebar(self):
