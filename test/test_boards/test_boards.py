@@ -8,10 +8,6 @@ from chess.pieces.pawn import Pawn
 from chess.pieces.queen import Queen
 
 test_boards = [
-    # Just Blues
-    "RNBQKBNR PPPPPPPP 00000000 00000000 00000000 00000000 00000000 00000000",
-    # Just Reds
-    "00000000 00000000 00000000 00000000 00000000 00000000 pppppppp rnbqkbnr",
     # inital setup
     "RNBQKBNR PPPPPPPP 00000000 00000000 00000000 00000000 pppppppp rnbqkbnr",
     # setup one
@@ -19,16 +15,14 @@ test_boards = [
 ]
 
 test_boards_key = [
-    [],  # Just Blues, No Key needed
-    [],  # Just Reds, No Key needed
-    [],  # Inital Setup, No key needed
+    [],  # Inital Setup No Key needed
     # Key for setup one
-    [[Rook("blue"), Empty_Space(), Empty_Space(), Queen("blue"), Bishop("blue"), Empty_Space(), Rook("blue"), King("blue")],
-     [Pawn("blue"), Pawn("blue"), Bishop("blue"), Empty_Space(), Empty_Space(), Pawn("blue"), Empty_Space(), Pawn("blue")],
-     [Empty_Space(), Empty_Space(), Knight("blue"), Empty_Space(), Pawn("blue"), Pawn("red"), Pawn("blue"), Empty_Space()],
-     [Bishop("red"), Empty_Space(), Empty_Space(), Empty_Space(), Knight("red"), Empty_Space(), Empty_Space(), Empty_Space()],
-     [Empty_Space(), Empty_Space(), Bishop("red"), Empty_Space(), Pawn("red"), Empty_Space(), Empty_Space(), Queen("red")],
-     [Empty_Space(), Empty_Space(), Pawn("red"), Empty_Space(), Empty_Space(), Rook("red"), Empty_Space(), Empty_Space()],
-     [Empty_Space(), Pawn("red"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red"), Pawn("red")],
-     [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), King("red")]]
+    [[Rook("blue", "A8"), Empty_Space(), Empty_Space(), Queen("blue", "D8"), Bishop("blue", "E8"), Empty_Space(), Rook("blue", "G8"), King("blue", "H8")],
+     [Pawn("blue", "A7"), Pawn("blue", "B7"), Bishop("blue", "C7"), Empty_Space(), Empty_Space(), Pawn("blue", "F7"), Empty_Space(), Pawn("blue", "H7")],
+     [Empty_Space(), Empty_Space(), Knight("blue", "C6"), Empty_Space(), Pawn("blue", "E6"), Pawn("red", "F6"), Pawn("blue", "G6"), Empty_Space()],
+     [Bishop("red", "A5"), Empty_Space(), Empty_Space(), Empty_Space(), Knight("red", "E5"), Empty_Space(), Empty_Space(), Empty_Space()],
+     [Empty_Space(), Empty_Space(), Bishop("red", "C4"), Empty_Space(), Pawn("red", "E4"), Empty_Space(), Empty_Space(), Queen("red", "H4")],
+     [Empty_Space(), Empty_Space(), Pawn("red", "C3"), Empty_Space(), Empty_Space(), Rook("red", "F3"), Empty_Space(), Empty_Space()],
+     [Empty_Space(), Pawn("red", "B2"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "G2"), Pawn("red", "H2")],
+     [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), King("red", "H1")]]
 ]
