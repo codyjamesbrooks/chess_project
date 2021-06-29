@@ -1,0 +1,216 @@
+import unittest
+
+# Boards imports
+from chess.gameboard.game_board import GameBoard
+from chess.gameboard.empty_space import Empty_Space
+from chess.gameboard.square import Square
+
+# Piece imports
+from chess.pieces.rook import Rook
+from chess.pieces.bishop import Bishop
+from chess.pieces.king import King
+from chess.pieces.knight import Knight
+from chess.pieces.pawn import Pawn
+from chess.pieces.queen import Queen
+
+from test.test_boards.test_boards import test_boards
+inital_setup = test_boards[0]
+pawn_board_1 = test_boards[2]
+
+test_piece_key = {
+    "r": Rook,
+    "b": Bishop,
+    "n": Knight,
+    "q": Queen,
+    "k": King,
+    "p": Pawn,
+}
+
+def populate_test_piece_array(test_board_string):
+    # function will take a test board string with piece rows seperated by spaces
+    test_board_string_rows = test_board_string.split(" ")
+    test_pieces = []
+    for row in range(8):
+        test_pieces.append([])
+        row_pieces = list(test_board_string_rows[row]) 
+        row_str = str(8 - row)
+        
+        for col in range(8): 
+            col_str = "ABCDEFGH"[col]
+            position = f"{col_str}{row_str}"
+            piece_letter = row_pieces[col]
+
+            if piece_letter == "0": 
+                test_pieces[row].append(Empty_Space())
+            else: 
+                piece_color = { True: "red", False: "blue" }[piece_letter.islower()]
+                piece_class = test_piece_key[piece_letter.lower()]
+                test_pieces[row].append(piece_class(piece_color, position))
+    return test_pieces
+
+class TestPawnClass(unittest.TestCase):
+    def test_init_red_pawn_no_position(self): 
+        test_pawn = Pawn("red")
+        self.assertEqual(test_pawn.name, "Pawn")
+        self.assertEqual(test_pawn.alias, "P")
+        self.assertEqual(test_pawn.color, "red")
+        self.assertIsNone(test_pawn.position)
+
+    def test_get_moves_method_on_pawns_inital_setup(self): 
+        # Every Pawn in the inital setup should have two possible move
+        # and 0 possible captures. 
+        pieces_array = populate_test_piece_array(inital_setup)
+        game_board = GameBoard(pieces_array)
+        for row in game_board.pieces: 
+            for piece in row: 
+                if piece.name == "Pawn": 
+                    moves = piece.get_moves(game_board)
+                    self.assertEqual(len(moves["moves"]), 2)
+                    self.assertEqual(len(moves["captures"]), 0)
+    
+    # Test the get_moves result for every pawn in pawn_board_1
+    def test_moves_pb1_pA7(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("A7")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["A6", "A5"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pB5(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("B5")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["B4"])
+        self.assertEqual(moves["captures"], ["C4"])
+
+    def test_moves_pb1_pC6(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("C6")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["C5"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pD7(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("D7")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["D6", "D5"])
+        self.assertEqual(moves["captures"], [])   
+
+    def test_moves_pb1_pE5(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("E5")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], [])
+        self.assertEqual(moves["captures"], [])    
+
+    def test_moves_pb1_pF5(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("F5")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["F4"])
+        self.assertEqual(moves["captures"], ["E4"])
+
+    def test_moves_pb1_pG7(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("G7")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["G6", "G5"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pH3(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("H3")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], [])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pA2(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("A2")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["A3", "A4"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pB3(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("B3")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["B4"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pC4(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("C4")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["C5"])
+        self.assertEqual(moves["captures"], ["B5"])
+
+    def test_moves_pb1_pD3(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("D3")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["D4"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pE4(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("E4")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], [])
+        self.assertEqual(moves["captures"], ["F5"])
+
+    def test_moves_pb1_pF3(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("F3")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["F4"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pG3(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("G3")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["G4"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_pb1_pH2(self): 
+        pieces_array = populate_test_piece_array(pawn_board_1)
+        game_board = GameBoard(pieces_array)
+        pawn = game_board.get_piece_at_position("H2")
+        moves = pawn.get_moves(game_board)
+        self.assertEqual(moves["moves"], [])
+        self.assertEqual(moves["captures"], [])
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+# assertEqual(a, b)         a == b
+# assertNotEqual(a, b)      a != b
+# assertTrue(x)             bool(x) is True
+# assertFalse(x)            bool(x) is False
+# assertIs(a, b)            a is b
+# assertIsNot(a, b)         a is not b
+# assertIsNone(x)           x is None
+# assertIsNotNone(x)        x is not None
+# assertIn(a, b)            a in b
+# assertNotIn(a, b)         a not in b
+# assertIsInstance(a, b)    isinstance(a, b)
+# assertNotIsInstance(a, b) isinstance(a, b)

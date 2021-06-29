@@ -27,8 +27,9 @@ class Pawn(Piece):
             moves.append(f"{current_col}{new_row}")
 
         # conditionally allow for double move if pawn is in start pos
+        # and if the space directly in front was unoccupied. 
         start = { "blue": 7, "red": 2 }
-        if int(current_row) == start[self.color]:
+        if int(current_row) == start[self.color] and len(moves) > 0:
             new_row = 2 * dir_of_travel + int(current_row)
             if game_board.get_piece_at_position(f"{current_col}{new_row}") == Empty_Space():
                 moves.append(f"{current_col}{new_row}")
