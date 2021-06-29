@@ -17,29 +17,34 @@ from test.test_boards.test_boards import test_boards
 inital_setup = test_boards[0]
 
 test_piece_key = {
-    "R": Rook("blue"),
-    "r": Rook("red"),
-    "B": Bishop("blue"),
-    "b": Bishop("red"),
-    "N": Knight("blue"),
-    "n": Knight("red"),
-    "Q": Queen("blue"),
-    "q": Queen("red"),
-    "K": King("blue"),
-    "k": King("red"),
-    "P": Pawn("blue"),
-    "p": Pawn("red"),
-    "0": Empty_Space(),
+    "r": Rook,
+    "b": Bishop,
+    "n": Knight,
+    "q": Queen,
+    "k": King,
+    "p": Pawn,
 }
 
 def populate_test_piece_array(test_board_string):
-    # function will take a test board, and generate a pieces array
+    # function will take a test board string with piece rows seperated by spaces
     test_board_string_rows = test_board_string.split(" ")
     test_pieces = []
     for row in range(8):
         test_pieces.append([])
-        for piece_letter in list(test_board_string_rows[row]):
-            test_pieces[row].append(test_piece_key[piece_letter])
+        row_pieces = list(test_board_string_rows[row]) 
+        row_str = str(8 - row)
+        
+        for col in range(8): 
+            col_str = "ABCDEFGH"[col]
+            position = f"{col_str}{row_str}"
+            piece_letter = row_pieces[col]
+
+            if piece_letter == "0": 
+                test_pieces[row].append(Empty_Space())
+            else: 
+                piece_color = { True: "red", False: "blue" }[piece_letter.islower()]
+                piece_class = test_piece_key[piece_letter.lower()]
+                test_pieces[row].append(piece_class(piece_color, position))
     return test_pieces
 
 
