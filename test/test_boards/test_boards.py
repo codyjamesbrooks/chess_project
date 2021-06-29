@@ -10,11 +10,11 @@ from chess.pieces.queen import Queen
 test_boards = [
     # inital setup
     "RNBQKBNR PPPPPPPP 00000000 00000000 00000000 00000000 pppppppp rnbqkbnr",
-    # setup one
+    # mvmt_board_1
     "R00QB0RK PPB00P0P 00N0PpP0 b000n000 00b0p00q 00p00r00 0p0000pp 0000000k",
-    # Pawn Movement test 1
+    # mvmt_board_2
     "RNBQKBNR P00P00P0 00P00000 0P00PP00 00p0p000 0p0p0ppP p000000p rnbqkbnr",
-    # Pawn Movement test 2
+    # mvmt_board_3
     "R0B0K000 N0P0p0Pp 0pPp0NB0 0000Qp0R 0P00p000 Pp000n00 PpP0P000 rnbqkb0r"
 
 ]
