@@ -16,38 +16,6 @@ from chess.pieces.queen import Queen
 from test.test_boards.test_boards import test_boards
 inital_setup = test_boards[0]
 
-test_piece_key = {
-    "r": Rook,
-    "b": Bishop,
-    "n": Knight,
-    "q": Queen,
-    "k": King,
-    "p": Pawn,
-}
-
-def populate_test_piece_array(test_board_string):
-    # function will take a test board string with piece rows seperated by spaces
-    test_board_string_rows = test_board_string.split(" ")
-    test_pieces = []
-    for row in range(8):
-        test_pieces.append([])
-        row_pieces = list(test_board_string_rows[row]) 
-        row_str = str(8 - row)
-        
-        for col in range(8): 
-            col_str = "ABCDEFGH"[col]
-            position = f"{col_str}{row_str}"
-            piece_letter = row_pieces[col]
-
-            if piece_letter == "0": 
-                test_pieces[row].append(Empty_Space())
-            else: 
-                piece_color = { True: "red", False: "blue" }[piece_letter.islower()]
-                piece_class = test_piece_key[piece_letter.lower()]
-                test_pieces[row].append(piece_class(piece_color, position))
-    return test_pieces
-
-
 class TestGameBoard(unittest.TestCase):
     def test_empty_instance(self):
         game_board = GameBoard()
@@ -81,22 +49,19 @@ class TestGameBoard(unittest.TestCase):
 
     # Inital Setup
     def test_inital_setup_pieces_is_the_correct_size(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         self.assertEqual(len(game_board.pieces), 8)
         for row in range(8):
             self.assertEqual(len(game_board.pieces[row]), 8)
 
     def test_inital_setup_board_is_the_correct_size(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         self.assertEqual(len(game_board.board), 8)
         for row in range(8):
             self.assertEqual(len(game_board.board[row]), 8)
 
     def test_inital_setup_pieces_array_correct_piece(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
         for row in [0, 7]:
             for col in range(8):
@@ -109,8 +74,7 @@ class TestGameBoard(unittest.TestCase):
                 self.assertIsInstance(game_board.pieces[row][col], Empty_Space)
 
     def test_inital_setup_board_array_correct_piece(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
         for row in [0, 7]:
             for col in range(8):
@@ -128,8 +92,7 @@ class TestGameBoard(unittest.TestCase):
                 self.assertIsInstance(game_board.board[row][col].piece, Empty_Space)
 
     def test_inital_setup_board_array_piece_color(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         for row in range(2, 6):
             for col in range(8):
                 self.assertIsNone(game_board.board[row][col].piece.color, None)
@@ -141,26 +104,24 @@ class TestGameBoard(unittest.TestCase):
                 self.assertEqual(game_board.board[row][col].piece.color, "red")
 
     def test_inital_setup_get_piece_at_position_method(self): 
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
         for color, row in [("blue", 8), ("red", 1)]:
             for col in list("ABCDEFGH"):
                 royal_loc = f"{col}{row}"
                 col_index = "ABCDEFGH".index(col)
-                self.assertEqual(game_board.get_piece_at_position(royal_loc), expected_class[col_index](color))
+                self.assertEqual(game_board.get_piece_at_position(royal_loc), expected_class[col_index](color, royal_loc))
         for color, row in [("blue", 7), ("red", 2)]:
             for col in list("ABCDEFGH"):
                 pawn_loc = f"{col}{row}"
-                self.assertEqual(game_board.get_piece_at_position(pawn_loc), Pawn(color))
+                self.assertEqual(game_board.get_piece_at_position(pawn_loc), Pawn(color, pawn_loc))
         for row in range(3, 7):
             for col in list("ABCDEFGH"): 
                 loc = f"{col}{row}"
                 self.assertEqual(game_board.get_piece_at_position(loc), Empty_Space())
                 
     def test_inital_setup_get_pieces_in_col_list(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expect_dict = { "A": [Rook("blue", "A8"), Pawn("blue", "A7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "A2"), Rook("red", "A1")], 
                         "B": [Knight("blue", "B8"), Pawn("blue", "B7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "B2"), Knight("red", "B1")],
                         "C": [Bishop("blue", "C8"), Pawn("blue", "C7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "C2"), Bishop("red", "C1")],
@@ -173,8 +134,7 @@ class TestGameBoard(unittest.TestCase):
             self.assertEqual(game_board.get_pieces_in_col_list(col), expect_dict[col])
 
     def test_inital_setup_get_pieces_in_row_list(self):
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expect_dict = { '8': [Rook("blue", "A8"), Knight("blue", "B8"), Bishop("blue", "C8"), Queen("blue", "D8"), King("blue", "E8"), Bishop("blue", "F8"), Knight("blue", "G8"), Rook("blue", "H8")],
                         '7': [Pawn("blue", "A7"), Pawn("blue", "B7"), Pawn("blue", "C7"), Pawn("blue", "D7"), Pawn("blue", "E7"), Pawn("blue", "F7"), Pawn("blue", "G7"), Pawn("blue", "H7")],
                         '6': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()],
@@ -187,8 +147,7 @@ class TestGameBoard(unittest.TestCase):
             self.assertEqual(game_board.get_pieces_in_row_list(str(row)), expect_dict[str(row)])
 
     def test_inital_setup_get_pieces_by_rows_dict(self): 
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expect_dict = { '8': [Rook("blue", "A8"), Knight("blue", "B8"), Bishop("blue", "C8"), Queen("blue", "D8"), King("blue", "E8"), Bishop("blue", "F8"), Knight("blue", "G8"), Rook("blue", "H8")],
                         '7': [Pawn("blue", "A7"), Pawn("blue", "B7"), Pawn("blue", "C7"), Pawn("blue", "D7"), Pawn("blue", "E7"), Pawn("blue", "F7"), Pawn("blue", "G7"), Pawn("blue", "H7")],
                         '6': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()],
@@ -200,8 +159,7 @@ class TestGameBoard(unittest.TestCase):
         self.assertEqual(game_board.get_pieces_by_rows_dict(), expect_dict)
 
     def test_inital_setup_get_pieces_by_cols_dict(self): 
-        pieces_array = populate_test_piece_array(inital_setup)
-        game_board = GameBoard(pieces_array)
+        game_board = GameBoard(inital_setup)
         expect_dict = { "A": [Rook("blue", "A8"), Pawn("blue", "A7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "A2"), Rook("red", "A1")], 
                         "B": [Knight("blue", "B8"), Pawn("blue", "B7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "B2"), Knight("red", "B1")],
                         "C": [Bishop("blue", "C8"), Pawn("blue", "C7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "C2"), Bishop("red", "C1")],
