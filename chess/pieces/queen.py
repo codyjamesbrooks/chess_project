@@ -1,62 +1,28 @@
 from chess.pieces.piece import Piece
-
+from chess.pieces.rook import Rook
+from chess.pieces.bishop import Bishop
 
 class Queen(Piece):
-    def __init__(self, color, position=None):
+    def __init__(self, color, position):
         super().__init__(color, position)
         self.name = "Queen"
         self.alias = "Q"
 
-    def get_potential_moves(self):
-        # Returns arrays of squares expanding from the current position of the queens position.
-        current_col, current_row = list(self.position)
-        col_index = self.columns.index(current_col)
-        row_num = int(current_row)
+    def get_moves(self, game_board):
+        # Queens move like Rooks, and Bishops combined. 
+        # So we can instinate a rook, and bishop with the same color/pos as the queen 
+        # then combine their moves dicts to form the queens moves dict 
+        temp_rook = Rook(self.color, self.position)
+        rook_like_moves = temp_rook.get_moves(game_board)
 
-        # Moves along same row/column - same method as used in Rook class
-        col_moves_left = [
-            f"{col}{current_row}" for col in self.columns[col_index - 1 :: -1]
-        ]
-        col_moves_right = [
-            f"{col}{current_row}" for col in self.columns[col_index + 1 :]
-        ]
-        row_moves_up = [f"{current_col}{row}" for row in range(row_num + 1, 9)]
-        row_moves_down = [f"{current_col}{row}" for row in range(row_num - 1, 0, -1)]
+        temp_bishop = Bishop(self.color, self.position)
+        bishop_like_moves = temp_bishop.get_moves(game_board)
 
-        # Moves along Diagionals - same method as used in Bishop class
-        diag_1 = []  # Moving towards A8
-        for i, row in enumerate(range(row_num + 1, 9)):
-            if col_index - i - 1 < 0:
-                break
-            diag_1.append(f"{self.columns[col_index - i - 1]}{row}")
+        move_directions = [rook_like_moves, bishop_like_moves]
+        moves = { "moves": [], "captures": [] }
+        for key in moves.keys():
+            for direction in move_directions: 
+                moves[key] += direction[key]
 
-        diag_2 = []  # Moving towards H8
-        for i, row in enumerate(range(row_num + 1, 9)):
-            if col_index + i + 1 > 7:
-                break
-            diag_2.append(f"{self.columns[col_index + i + 1]}{row}")
-
-        diag_3 = []  # Moving towards H1
-        for i, row in enumerate(range(row_num - 1, 0, -1)):
-            if col_index + i + 1 > 7:
-                break
-            diag_3.append(f"{self.columns[col_index + i + 1]}{row}")
-
-        diag_4 = []  # Moving towards A1
-        for i, row in enumerate(range(row_num - 1, 0, -1)):
-            if col_index - i - 1 < 0:
-                break
-            diag_4.append(f"{self.columns[col_index - i - 1]}{row}")
-
-        potential_moves = [
-            col_moves_left,
-            col_moves_right,
-            row_moves_up,
-            row_moves_down,
-            diag_1,
-            diag_2,
-            diag_3,
-            diag_4,
-        ]
-
-        return [moves for moves in potential_moves if len(moves) > 0]
+        return moves
+ 

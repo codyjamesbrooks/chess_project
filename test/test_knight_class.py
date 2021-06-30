@@ -57,5 +57,62 @@ class TestKnightClass(unittest.TestCase):
         moves = knight.get_moves(game_board)
         self.assertEqual(moves["moves"], ["D7", "G4", "D3"])
         self.assertEqual(moves["captures"], ["C6", "F7", "G6"])
+    
+    def test_moves_mb2_nB8(self): 
+        game_board = GameBoard(mvmt_board_2)
+        knight = game_board.get_piece_at_position("B8")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["A6"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_mb2_nG8(self): 
+        game_board = GameBoard(mvmt_board_2)
+        knight = game_board.get_piece_at_position("G8")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["H6", "F6", "E7"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_mb2_nB1(self): 
+        game_board = GameBoard(mvmt_board_2)
+        knight = game_board.get_piece_at_position("B1")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["A3", "C3", "D2"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_mb2_nG1(self): 
+        game_board = GameBoard(mvmt_board_2)
+        knight = game_board.get_piece_at_position("G1")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["E2"])
+        self.assertEqual(moves["captures"], ["H3"])
+
+    def test_moves_mb3_nA7(self): 
+        game_board = GameBoard(mvmt_board_3)
+        knight = game_board.get_piece_at_position("A7")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["B5"])
+        self.assertEqual(moves["captures"], [])
+
+    def test_moves_mb3_nF6(self): 
+        game_board = GameBoard(mvmt_board_3)
+        knight = game_board.get_piece_at_position("F6")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["D7", "G8", "G4", "D5"])
+        self.assertEqual(moves["captures"], ["H7", "E4"])
+
+    def test_moves_mb3_nF3(self): 
+        game_board = GameBoard(mvmt_board_3)
+        knight = game_board.get_piece_at_position("F3")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["D4", "G5", "H4", "H2", "G1", "D2"])
+        self.assertEqual(moves["captures"], ["E5"])
+
+    def test_moves_mb3_nB1(self): 
+        game_board = GameBoard(mvmt_board_3)
+        knight = game_board.get_piece_at_position("B1")
+        moves = knight.get_moves(game_board)
+        self.assertEqual(moves["moves"], ["C3", "D2"])
+        self.assertEqual(moves["captures"], ["A3"])
+
 
 
