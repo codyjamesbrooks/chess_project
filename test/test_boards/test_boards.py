@@ -16,7 +16,9 @@ test_board_strings = [
     # mvmt_board_2
     "RNBQKBNR P00P00P0 00P00000 0P00PP00 00p0p000 0p0p0ppP p000000p rnbqkbnr",
     # mvmt_board_3
-    "R0B0K000 N0P0p0Pp 0pPp0NB0 0000Qp0R 0P00p000 Pp000n00 PpP0P000 rnbqkb0r"
+    "R0B0K000 N0P0p0Pp 0pPp0NB0 0000Qp0R 0P00p000 Pp000n00 PpP0P000 rnbqkb0r",
+    # mvmt_board_4
+    "00RR00K0 0P000PPP P000P000 0B000000 000b0p00 pp0qP0p0 0Qp0000p r00r00k0"
 ]
 
 def populate_test_piece_array(test_board_string):

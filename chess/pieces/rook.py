@@ -26,8 +26,8 @@ class Rook(Piece):
     def get_neg_col_moves(self, game_board): 
         col_index = self.columns.index(self.current_col)
         moves = { "moves": [], "captures": [] }
-        for col in self.columns[col_index - 1 : : -1]:
-            pos_to_check = f"{col}{self.current_row}"
+        for col in range(col_index - 1, -1, -1):
+            pos_to_check = f"{self.columns[col]}{self.current_row}"
             board_piece = game_board.get_piece_at_position(pos_to_check) 
 
             if board_piece == Empty_Space(): 
@@ -42,8 +42,8 @@ class Rook(Piece):
     def get_pos_col_moves(self, game_board): 
         col_index = self.columns.index(self.current_col)
         moves = { "moves": [], "captures": [] }
-        for col in self.columns[col_index + 1:]:
-            pos_to_check = f"{col}{self.current_row}"
+        for col in range(col_index + 1, 8):
+            pos_to_check = f"{self.columns[col]}{self.current_row}"
             board_piece = game_board.get_piece_at_position(pos_to_check) 
 
             if board_piece == Empty_Space(): 
@@ -75,7 +75,6 @@ class Rook(Piece):
         for row in range(int(self.current_row) + 1, 9):
             pos_to_check = f"{self.current_col}{row}"
             board_piece = game_board.get_piece_at_position(pos_to_check) 
-
             if board_piece == Empty_Space(): 
                 moves["moves"].append(pos_to_check)
             elif board_piece.color != self.color: 

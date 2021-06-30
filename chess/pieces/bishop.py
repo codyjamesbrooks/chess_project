@@ -1,5 +1,5 @@
 from chess.pieces.piece import Piece
-
+from chess.gameboard.empty_space import Empty_Space
 
 class Bishop(Piece):
     def __init__(self, color, position=None):
@@ -7,34 +7,96 @@ class Bishop(Piece):
         self.name = "Bishop"
         self.alias = "B"
 
-    def get_potential_moves(self):
-        current_col, current_row = list(self.position)
-        col_index = self.columns.index(current_col)
-        row_num = int(current_row)
+    def get_moves(self, game_board): 
+        neg_cols_pos_rows = self.get_neg_cols_pos_rows_moves(game_board)
+        pos_cols_pos_rows = self.get_pos_cols_pos_rows_moves(game_board)
+        neg_cols_neg_rows = self.get_neg_cols_neg_rows_moves(game_board)
+        pos_cols_neg_rows = self.get_pos_cols_neg_rows_moves(game_board)
 
-        diag_1 = []  # Moving towards A8
+        move_directions = [neg_cols_pos_rows, pos_cols_pos_rows, neg_cols_neg_rows, pos_cols_neg_rows]
+        moves = { "moves": [], "captures": [] }
+        for key in moves.keys(): 
+            for direction in move_directions: 
+                moves[key] += direction[key]
+        return moves
+
+    def get_neg_cols_pos_rows_moves(self, game_board):
+        moves = { "moves": [], "captures": [] }
+        row_num = int(self.current_row)
+        col_index = self.columns.index(self.current_col)
         for i, row in enumerate(range(row_num + 1, 9)):
             if col_index - i - 1 < 0:
                 break
-            diag_1.append(f"{self.columns[col_index - i - 1]}{row}")
 
-        diag_2 = []  # Moving towards H8
-        for i, row in enumerate(range(row_num + 1, 9)):
-            if col_index + i + 1 > 7:
+            pos_to_check = f"{self.columns[col_index - i - 1]}{row}"
+            board_piece = game_board.get_piece_at_position(pos_to_check)
+
+            if board_piece == Empty_Space(): 
+                moves["moves"].append(pos_to_check)
+            elif board_piece.color != self.color: 
+                moves["captures"].append(pos_to_check)
                 break
-            diag_2.append(f"{self.columns[col_index + i + 1]}{row}")
-
-        diag_3 = []  # Moving towards H1
-        for i, row in enumerate(range(row_num - 1, 0, -1)):
-            if col_index + i + 1 > 7:
+            else: # Encounterd same colored piece
                 break
-            diag_3.append(f"{self.columns[col_index + i + 1]}{row}")
+        return moves
 
-        diag_4 = []  # Moving towards A1
-        for i, row in enumerate(range(row_num - 1, 0, -1)):
-            if col_index - i - 1 < 0:
+    def get_pos_cols_pos_rows_moves(self, game_board):
+        moves = { "moves": [], "captures": [] }
+        row_num = int(self.current_row)
+        col_index = self.columns.index(self.current_col)
+        for i, row in enumerate(range(row_num + 1, 9)): 
+            if col_index + i + 1 > 7: 
                 break
-            diag_4.append(f"{self.columns[col_index - i - 1]}{row}")
 
-        potential_moves = [diag_1, diag_2, diag_3, diag_4]
-        return [moves for moves in potential_moves if len(moves) > 0]
+            pos_to_check = f"{self.columns[col_index + i + 1]}{row}"
+            board_piece = game_board.get_piece_at_position(pos_to_check)
+
+            if board_piece == Empty_Space(): 
+                moves["moves"].append(pos_to_check)
+            elif board_piece.color != self.color: 
+                moves["captures"].append(pos_to_check)
+                break
+            else: # Encounterd same colored piece
+                break
+        return moves
+
+    def get_neg_cols_neg_rows_moves(self, game_board):
+        moves = { "moves": [], "captures": [] }
+        row_num = int(self.current_row)
+        col_index = self.columns.index(self.current_col)
+        for i, row in enumerate(range(row_num - 1, 0, -1)): 
+            if col_index - i - 1 < 0: 
+                break
+
+            pos_to_check = f"{self.columns[col_index - i - 1]}{row}"
+            board_piece = game_board.get_piece_at_position(pos_to_check)
+
+            if board_piece == Empty_Space(): 
+                moves["moves"].append(pos_to_check)
+            elif board_piece.color != self.color: 
+                moves["captures"].append(pos_to_check)
+                break
+            else: # Encounterd same colored piece
+                break
+        return moves
+
+    def get_pos_cols_neg_rows_moves(self, game_board):
+        moves = { "moves": [], "captures": [] }
+        row_num = int(self.current_row)
+        col_index = self.columns.index(self.current_col)
+        for i, row in enumerate(range(row_num - 1, 0, -1)): 
+            if col_index + i + 1 > 7: 
+                break
+
+            pos_to_check = f"{self.columns[col_index + i + 1]}{row}"
+            board_piece = game_board.get_piece_at_position(pos_to_check)
+
+            if board_piece == Empty_Space(): 
+                moves["moves"].append(pos_to_check)
+            elif board_piece.color != self.color: 
+                moves["captures"].append(pos_to_check)
+                break
+            else: # Encounterd same colored piece
+                break
+        return moves
+
