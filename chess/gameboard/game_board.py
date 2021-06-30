@@ -6,20 +6,33 @@ class GameBoard:
     def __init__(self, pieces=[[Empty_Space() for _ in range(8)] for _ in range(8)]):
         # initilize a Game Board using a provided pieces array.
         # pieces defaults to an array of empty squares if no pieces are supplied
-        square_colors = { 0: "white", 1: "black", 2: "white" }  # Dict used to apply color to square backgrounds
         self.columns = "ABCDEFGH"
         self.pieces = pieces
-        self.board = []
 
-        # populate self.board with a chess board using the provided pieces array
-        for board_row in range(8):
+        # Create an empty board array. 
+        self.board = []
+        # Call set game board with the provided pieces in order to populate the board
+        self.set_game_board(pieces)
+
+    def set_game_board(self, pieces): 
+        # given a pieces array populate a GameBoard of Squares with the given pieces. 
+        square_colors = { 0: "white", 1: "black", 2: "white" } # Dict used to apply color to square backgrounds
+        board = []
+        for row in range(8):
             current_row = []
-            for board_column in range(8):
-                square_color = square_colors[(board_column % 2) + (board_row % 2)]
-                square_label = f"{self.columns[board_column]}{8 - board_row}"
-                square_piece = self.pieces[board_row][board_column]
+            for col in range(8): 
+                square_color =  square_colors[(col % 2) + (row % 2)]
+                square_label = f"{self.columns[col]}{8 - row}"
+                square_piece = pieces[row][col]
                 current_row.append(Square(square_color, square_label, square_piece))
-            self.board.append(current_row)
+            board.append(current_row)
+        self.board = board
+
+    def get_pieces(self): 
+        return self.pieces
+    
+    def set_pieces(self, updated_pieces): 
+        self.pieces = updated_pieces
 
     def get_piece_at_position(self, position):
         # Given poition in form '(ColumnLetter)(RowNumber)' return the piece object at that position
@@ -39,24 +52,6 @@ class GameBoard:
         row_index = 8 - int(row_number)
         pieces_in_row = self.pieces[row_index]
         return pieces_in_row
-
-    def get_pieces_by_rows_dict(self):
-        # return a dict of the pieces in each row from left to right order.
-        pieces_by_row = {}
-        for row in range(8, 0, -1):
-            pieces_by_row[str(row)] = []
-            for piece in self.pieces[8 - row]:
-                pieces_by_row[str(row)].append(piece)
-        return pieces_by_row
-
-    def get_pieces_by_cols_dict(self):
-        # return a dict of the pieces in each col starting at row-8 going to row-1.
-        pieces_by_col = {}
-        for col in range(len(self.columns)):
-            pieces_by_col[self.columns[col]] = []
-            for row in range(8):
-                pieces_by_col[self.columns[col]].append(self.pieces[row][col])
-        return pieces_by_col
 
     def rules_sidebar(self):
         side_bar = [

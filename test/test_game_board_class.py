@@ -145,30 +145,6 @@ class TestGameBoard(unittest.TestCase):
                         '1': [Rook("red", "A1"), Knight("red", "B1"), Bishop("red", "C1"), Queen("red", "D1"), King("red", "E1"), Bishop("red", "F1"), Knight("red", "G1"), Rook("red", "H1")]}
         for row in range(1, 9):
             self.assertEqual(game_board.get_pieces_in_row_list(str(row)), expect_dict[str(row)])
-
-    def test_inital_setup_get_pieces_by_rows_dict(self): 
-        game_board = GameBoard(inital_setup)
-        expect_dict = { '8': [Rook("blue", "A8"), Knight("blue", "B8"), Bishop("blue", "C8"), Queen("blue", "D8"), King("blue", "E8"), Bishop("blue", "F8"), Knight("blue", "G8"), Rook("blue", "H8")],
-                        '7': [Pawn("blue", "A7"), Pawn("blue", "B7"), Pawn("blue", "C7"), Pawn("blue", "D7"), Pawn("blue", "E7"), Pawn("blue", "F7"), Pawn("blue", "G7"), Pawn("blue", "H7")],
-                        '6': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()],
-                        '5': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()],
-                        '4': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()], 
-                        '3': [Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space()],
-                        '2': [Pawn("red", "A2"), Pawn("red", "B2"), Pawn("red", "C2"), Pawn("red", "D2"), Pawn("red", "E2"), Pawn("red", "F2"), Pawn("red", "G2"), Pawn("red", "H2")],
-                        '1': [Rook("red", "A1"), Knight("red", "B1"), Bishop("red", "C1"), Queen("red", "D1"), King("red", "E1"), Bishop("red", "F1"), Knight("red", "G1"), Rook("red", "H1")]}
-        self.assertEqual(game_board.get_pieces_by_rows_dict(), expect_dict)
-
-    def test_inital_setup_get_pieces_by_cols_dict(self): 
-        game_board = GameBoard(inital_setup)
-        expect_dict = { "A": [Rook("blue", "A8"), Pawn("blue", "A7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "A2"), Rook("red", "A1")], 
-                        "B": [Knight("blue", "B8"), Pawn("blue", "B7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "B2"), Knight("red", "B1")],
-                        "C": [Bishop("blue", "C8"), Pawn("blue", "C7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "C2"), Bishop("red", "C1")],
-                        "D": [Queen("blue", "D8"), Pawn("blue", "D7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "D2"), Queen("red", "D1")],
-                        "E": [King("blue", "E8"), Pawn("blue", "E7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "E2"), King("red", "E1")],
-                        "F": [Bishop("blue", "F8"), Pawn("blue", "F7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "F2"), Bishop("red", "F1")],
-                        "G": [Knight("blue", "G8"), Pawn("blue", "G7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "G2"), Knight("red", "G1")],
-                        "H": [Rook("blue", "H8"), Pawn("blue", "H7"), Empty_Space(), Empty_Space(), Empty_Space(), Empty_Space(), Pawn("red", "H2"), Rook("red", "H1")]}
-        self.assertEqual(game_board.get_pieces_by_cols_dict(), expect_dict)
     
 if __name__ == "__main__":
     unittest.main()
