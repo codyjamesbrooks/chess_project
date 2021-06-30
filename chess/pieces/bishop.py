@@ -30,13 +30,8 @@ class Bishop(Piece):
 
             pos_to_check = f"{self.columns[col_index - i - 1]}{row}"
             board_piece = game_board.get_piece_at_position(pos_to_check)
-
-            if board_piece == Empty_Space(): 
-                moves["moves"].append(pos_to_check)
-            elif board_piece.color != self.color: 
-                moves["captures"].append(pos_to_check)
-                break
-            else: # Encounterd same colored piece
+            keep_moving, moves = self.update_moves_based_on_encountered_piece(moves, board_piece, pos_to_check)
+            if keep_moving == False: 
                 break
         return moves
 
@@ -50,13 +45,9 @@ class Bishop(Piece):
 
             pos_to_check = f"{self.columns[col_index + i + 1]}{row}"
             board_piece = game_board.get_piece_at_position(pos_to_check)
-
-            if board_piece == Empty_Space(): 
-                moves["moves"].append(pos_to_check)
-            elif board_piece.color != self.color: 
-                moves["captures"].append(pos_to_check)
-                break
-            else: # Encounterd same colored piece
+            keep_moving, moves = self.update_moves_based_on_encountered_piece(moves, board_piece, pos_to_check)
+            
+            if keep_moving == False: 
                 break
         return moves
 
@@ -70,13 +61,9 @@ class Bishop(Piece):
 
             pos_to_check = f"{self.columns[col_index - i - 1]}{row}"
             board_piece = game_board.get_piece_at_position(pos_to_check)
-
-            if board_piece == Empty_Space(): 
-                moves["moves"].append(pos_to_check)
-            elif board_piece.color != self.color: 
-                moves["captures"].append(pos_to_check)
-                break
-            else: # Encounterd same colored piece
+            keep_moving, moves = self.update_moves_based_on_encountered_piece(moves, board_piece, pos_to_check)
+            
+            if keep_moving == False: 
                 break
         return moves
 
@@ -90,13 +77,9 @@ class Bishop(Piece):
 
             pos_to_check = f"{self.columns[col_index + i + 1]}{row}"
             board_piece = game_board.get_piece_at_position(pos_to_check)
-
-            if board_piece == Empty_Space(): 
-                moves["moves"].append(pos_to_check)
-            elif board_piece.color != self.color: 
-                moves["captures"].append(pos_to_check)
-                break
-            else: # Encounterd same colored piece
+            keep_moving, moves = self.update_moves_based_on_encountered_piece(moves, board_piece, pos_to_check)
+            
+            if keep_moving == False: 
                 break
         return moves
 

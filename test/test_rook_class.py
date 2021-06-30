@@ -2,16 +2,8 @@ import unittest
 
 # Boards imports
 from chess.gameboard.game_board import GameBoard
-from chess.gameboard.empty_space import Empty_Space
-from chess.gameboard.square import Square
-
 # Piece imports
 from chess.pieces.rook import Rook
-from chess.pieces.bishop import Bishop
-from chess.pieces.king import King
-from chess.pieces.knight import Knight
-from chess.pieces.pawn import Pawn
-from chess.pieces.queen import Queen
 
 from test.test_boards.test_boards import test_boards
 inital_setup = test_boards[0]
