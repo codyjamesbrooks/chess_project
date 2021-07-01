@@ -9,12 +9,35 @@ class GameBoard:
         self.columns = "ABCDEFGH"
         self.pieces = pieces
 
-        # Create an empty board array. 
         self.board = []
-        # Call set game board with the provided pieces in order to populate the board
-        self.set_game_board(pieces)
+        # set game board paints the squares, and places each piece on the board. 
+        self.set_board(pieces)
 
-    def set_game_board(self, pieces): 
+    def update_game_board(self, player_move):
+        if player_move["move_type"] == "move":
+            # Calculate the indicies of the pieces array that need to be changed. 
+            from_pieces_index_row = 8 - int(player_move["from"][1])
+            from_pieces_index_col = self.columns.index(player_move["from"][0])
+            to_pieces_index_row = 8 - int(player_move["to"][1])
+            to_pieces_index_col = self.columns.index(player_move["to"][0])
+
+            # Get the piece that needs to move, and update its position
+            moving_piece = self.get_piece_at_position(player_move["from"])
+            moving_piece.set_position(player_move["to"])
+            
+            # copy pieces arrary, and make necessary changes. 
+            new_pieces_array = self.pieces[:]
+            new_pieces_array[from_pieces_index_row][from_pieces_index_col] = Empty_Space()
+            new_pieces_array[to_pieces_index_row][to_pieces_index_col] = moving_piece
+
+            # call set_pieces, and set_board
+            self.set_pieces(new_pieces_array)
+            self.set_board(new_pieces_array)
+
+    def set_pieces(self, updated_pieces): 
+        self.pieces = updated_pieces
+        
+    def set_board(self, pieces): 
         # given a pieces array populate a GameBoard of Squares with the given pieces. 
         square_colors = { 0: "white", 1: "black", 2: "white" } # Dict used to apply color to square backgrounds
         board = []
@@ -27,12 +50,6 @@ class GameBoard:
                 current_row.append(Square(square_color, square_label, square_piece))
             board.append(current_row)
         self.board = board
-
-    def get_pieces(self): 
-        return self.pieces
-    
-    def set_pieces(self, updated_pieces): 
-        self.pieces = updated_pieces
 
     def get_piece_at_position(self, position):
         # Given poition in form '(ColumnLetter)(RowNumber)' return the piece object at that position
@@ -80,7 +97,6 @@ class GameBoard:
         display_board = []
         rules = self.rules_sidebar()
         row_counter = 0
-
         # Assemble the row of squares.
         for row in self.board:
             temp_row = ["", "", ""]
@@ -89,10 +105,7 @@ class GameBoard:
 
             # Add in the line of rules
             if row_counter < len(rules):
-                temp_row = [
-                    x + y
-                    for x, y in zip(temp_row, rules[row_counter : row_counter + 3])
-                ]
+                temp_row = [x + y for x, y in zip(temp_row, rules[row_counter : row_counter + 3])]
                 row_counter += 3
             display_board.append("\n".join(temp_row))
 

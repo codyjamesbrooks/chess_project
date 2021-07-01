@@ -23,6 +23,6 @@ class Queen(Piece):
         for key in moves.keys():
             for direction in move_directions: 
                 moves[key] += direction[key]
-
+                
         return moves
  
