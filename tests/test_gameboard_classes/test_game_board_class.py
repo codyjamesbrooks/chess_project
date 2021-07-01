@@ -12,51 +12,50 @@ from chess.pieces.pawn import Pawn
 from chess.pieces.queen import Queen
 from tests.test_resources.test_boards import test_boards
 inital_setup = test_boards[0]
+mvmt_board_1 = test_boards[1]
 
 class TestGameBoard(unittest.TestCase):
-    def test_empty_instance(self):
-        game_board = GameBoard()
-        # Test game_board __init__ method
+    def test_init_game_board(self):
+        game_board = GameBoard(inital_setup)
         self.assertEqual(game_board.columns, "ABCDEFGH")
         self.assertIsNotNone(game_board.pieces)
+        self.assertEqual(game_board.pieces, inital_setup)
 
-    def test_game_board_board_array_empty_instance(self):
-        game_board = GameBoard()
-        # Test that game_board.board is a 8 X 8 Array
-        self.assertEqual(len(game_board.board), 8)
-        for row in range(8):
-            self.assertEqual(len(game_board.board[row]), 8)
-
-    def test_squares_in_empty_instance(self):
-        # Test that the board is populated with instances of Square
-        game_board = GameBoard()
-        for row in range(8):
-            for col in range(8):
-                self.assertIsInstance(game_board.board[row][col], Square)
-
-    def test_squares_have_correct_labels_empty_instance(self):
-        # Test the square labeles
-        game_board = GameBoard()
-        for row in range(8):
-            for col in range(8):
-                correct_row_label = 8 - row
-                correct_col_label = "ABCDEFGH"[col]
-                board_square = game_board.board[row][col]
-                self.assertEqual(board_square.cornor_label, f"{correct_col_label}{correct_row_label}")
-
-    # Inital Setup
-    def test_inital_setup_pieces_is_the_correct_size(self):
+    def test_inital_setup_pieces_correct_size(self):
         game_board = GameBoard(inital_setup)
         self.assertEqual(len(game_board.pieces), 8)
         for row in range(8):
             self.assertEqual(len(game_board.pieces[row]), 8)
 
-    def test_inital_setup_board_is_the_correct_size(self):
+    def test_game_board_board_array_size(self): 
         game_board = GameBoard(inital_setup)
         self.assertEqual(len(game_board.board), 8)
-        for row in range(8):
+        for row in range(8): 
             self.assertEqual(len(game_board.board[row]), 8)
 
+    def test_game_board_board_is_all_squares(self): 
+        game_board = GameBoard(inital_setup)
+        for row in range(8): 
+            for col in range(8):
+                self.assertIsInstance(game_board.board[row][col], Square)
+
+    def test_board_squares_have_correct_labels(self): 
+        game_board = GameBoard(inital_setup)
+        for row in range(8): 
+            for col in range(8): 
+                correct_label = f"{'ABCDEFGH'[col]}{8 - row}"
+                board_square = game_board.board[row][col]
+                self.assertEqual(board_square.cornor_label, correct_label)
+
+    def test_pieces_positions_match_square_cornor_labels(self): 
+        game_board = GameBoard(inital_setup)
+        for row in range(8):
+            for col in range(8): 
+                piece = game_board.pieces[row][col]
+                square = game_board.board[row][col]
+                if piece != Empty_Space():
+                    self.assertEqual(piece.position, square.cornor_label)
+                    
     def test_inital_setup_pieces_array_correct_piece(self):
         game_board = GameBoard(inital_setup)
         expected_class = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
@@ -142,3 +141,10 @@ class TestGameBoard(unittest.TestCase):
                         '1': [Rook("red", "A1"), Knight("red", "B1"), Bishop("red", "C1"), Queen("red", "D1"), King("red", "E1"), Bishop("red", "F1"), Knight("red", "G1"), Rook("red", "H1")]}
         for row in range(1, 9):
             self.assertEqual(game_board.get_pieces_in_row_list(str(row)), expect_dict[str(row)])
+
+    def test_set_pieces_method(self): 
+        game_board = GameBoard(inital_setup)
+        game_board.set_pieces(mvmt_board_1)
+        self.assertEqual(game_board.pieces, mvmt_board_1)
+
+    

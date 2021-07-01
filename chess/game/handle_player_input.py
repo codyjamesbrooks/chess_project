@@ -20,14 +20,14 @@ class HandlePlayerInput:
         # Receive move as entered by the user. Split up the input to determine
         # what the user is trying to do. Return a dictionary of move details 
         move_dict = { "move_type" : "",
-                      "move_piece": "",
-                      "from": "", 
-                      "to": "", 
-                      "promotion_to": "",
-                      "confirm_string": ""}
+                    "move_piece": "",
+                    "from": "", 
+                    "to": "", 
+                    "promotion_to": "",
+                    "confirm_string": ""}
         
         piece_dict = { "K": "king", "Q": "queen", "B": "bishop", 
-                       "N": "knight", "R": "rook", "P": "pawn" }
+                        "N": "knight", "R": "rook", "P": "pawn" }
         
         move_elements = [element.upper().strip() for element in player_move.split("-")]
         
@@ -60,7 +60,7 @@ class HandlePlayerInput:
             move_dict["move_type"] = "promote"
             move_dict["promotion_to"] = piece_dict[move_elements[-1]]
             move_dict["confirm_string"] = (f"promote {move_dict['move_piece']} at {move_elements[0]} "+
-                                           f"to {move_dict['promotion_to']} at {move_elements[2]}")
+                                            f"to {move_dict['promotion_to']} at {move_elements[2]}")
 
         return move_dict
     

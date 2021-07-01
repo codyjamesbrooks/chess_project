@@ -15,11 +15,8 @@ class Piece:
 
     def __eq__(self, other): 
         return ( self.name == other.name and
-                 self.color == other.color and
-                 self.position == self.position )
-    
-    def get_position(self): 
-        return self.position
+                self.color == other.color and
+                self.position == self.position )
 
     def set_position(self, new_position):
         # Used to update a pieces position
