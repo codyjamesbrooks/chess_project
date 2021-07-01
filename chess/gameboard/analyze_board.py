@@ -11,7 +11,7 @@ from chess.pieces.queen import Queen
 from chess.pieces.rook import Rook 
 
 class AnalyzeBoard:
-    def is_color_king_in_check(self, color, game_board): 
+    def is_color_in_check(self, color, game_board): 
         opponents_pieces = [piece for row in game_board.pieces for piece in row if 
                             piece.color != color and piece != Empty_Space()]
 
@@ -25,7 +25,7 @@ class AnalyzeBoard:
                 return True
         return False
 
-    def is_color_king__in_checkmate(self, color, game_board): 
+    def is_color_in_checkmate(self, color, game_board): 
         opponents_pieces = [piece for row in game_board.pieces for pieces in row if
                             piece.color != color and piece != Empty_Space()]
 
@@ -42,10 +42,7 @@ class AnalyzeBoard:
         # This method still needs work!
         # I need to handle modifying the game_board.pieces array in order to chase down all the potential
         # captures the king could make. 
-
         return False
-
-
 
     def locate_colors_king(self, color, game_board): 
         # given a piece color, and a game_board. return the king piece 
@@ -54,6 +51,17 @@ class AnalyzeBoard:
                 if piece.name == "King" and piece.color == color: 
                     king = piece
         return king
+
+    def is_player_move_valid(self, color, check_status, player_move):
+        move_validity = { "valid": False, "invalid_msg": "" }
+        # Validating a player move is a 3 step process. 
+        # 1. Find the piece that the player would like to move 
+
+        return move_validity
+
+        
+        
+# is_player_move_valid(color, player_move)
 
 
     

@@ -1,10 +1,8 @@
 import unittest
-
 # Boards imports
 from chess.gameboard.game_board import GameBoard
 from chess.gameboard.empty_space import Empty_Space
 from chess.gameboard.square import Square
-
 # Piece imports
 from chess.pieces.rook import Rook
 from chess.pieces.bishop import Bishop
@@ -12,8 +10,7 @@ from chess.pieces.king import King
 from chess.pieces.knight import Knight
 from chess.pieces.pawn import Pawn
 from chess.pieces.queen import Queen
-
-from test.test_boards.test_boards import test_boards
+from tests.test_resources.test_boards import test_boards
 inital_setup = test_boards[0]
 
 class TestGameBoard(unittest.TestCase):
@@ -145,20 +142,3 @@ class TestGameBoard(unittest.TestCase):
                         '1': [Rook("red", "A1"), Knight("red", "B1"), Bishop("red", "C1"), Queen("red", "D1"), King("red", "E1"), Bishop("red", "F1"), Knight("red", "G1"), Rook("red", "H1")]}
         for row in range(1, 9):
             self.assertEqual(game_board.get_pieces_in_row_list(str(row)), expect_dict[str(row)])
-    
-if __name__ == "__main__":
-    unittest.main()
-
-
-# assertEqual(a, b)         a == b
-# assertNotEqual(a, b)      a != b
-# assertTrue(x)             bool(x) is True
-# assertFalse(x)            bool(x) is False
-# assertIs(a, b)            a is b
-# assertIsNot(a, b)         a is not b
-# assertIsNone(x)           x is None
-# assertIsNotNone(x)        x is not None
-# assertIn(a, b)            a in b
-# assertNotIn(a, b)         a not in b
-# assertIsInstance(a, b)    isinstance(a, b)
-# assertNotIsInstance(a, b) isinstance(a, b)

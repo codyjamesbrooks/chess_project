@@ -1,11 +1,9 @@
 import unittest
 # Boards imports
 from chess.gameboard.game_board import GameBoard
-
 # Piece imports
 from chess.pieces.queen import Queen
-
-from test.test_boards.test_boards import test_boards
+from tests.test_resources.test_boards import test_boards
 inital_setup = test_boards[0]
 mvmt_board_1 = test_boards[1]
 mvmt_board_2 = test_boards[2]

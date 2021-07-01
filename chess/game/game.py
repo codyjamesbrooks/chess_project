@@ -17,36 +17,58 @@ class Game:
         self.current_player = "red" 
 
         # create an HandlePlayerInput instance. This will be used to get, and verify user input.
-        input_handler = HandlePlayerInput(self.players_turn) 
+        input_handler = HandlePlayerInput() 
     
         # create an AnalyzeBoard instance. Used to monitor 'check' and 'checkmate'  
         analyze = AnalyzeBoard()
-        self.current_player_in_check = analyze.is_color_king_in_check(self.current_player, self.game_board)
-        self.current_player_in_checkmate = analyze.is_color_king_in_checkmate(self.current_player, self.game_board)
+        self.current_player_in_check_status = analyze.is_color_in_check(self.current_player, self.game_board)
+        self.current_player_in_checkmate_status = analyze.is_color_in_checkmate(self.current_player, self.game_board)
 
         # Call the main loop of the game.
         self.game_loop()
         
         
     def game_loop(self): 
-        # Outline Game Flow
         # 1. Create a while loop. The while loop will continue to run provided that the self.current_player isn't in checkmate.
-        # 2. Display the board to the user. 
-        # 3. Call an execute player turn function. 
-        #     - Needs to Get input from the user. 
-        #     - Determine the of the move is valid:
-        #         - Can the indicated piece move to the requested position? 
-        #         - Will moving the requested piece put self.current_player into check? 
+        while self.current_player_in_checkmate_status == False: 
+            
+            # 2. Display the board to the users. 
+            print(game_board)
+
+            # 3. Display msg to users indicating whose turn it is, and if they are in Check
+            in_check_msg = { True: "are", False: "aren't" }[self.current_player_in_check_status]
+            print(f"It is {self.current_player}'s turn. You {in_check_msg} in check.")
+
+            # 3. Call player_turn function
+            self.player_turn()
+
+
+    def player_turn(self):
+        move_validity = { "valid": False, "invalid_msg": "" }
+        while move_validity["valid"] == False: 
+            # Get input from the user
+            player_move = input_handler.player_input_main_method()
+
+            # update move_validity using the confirmed player move dict
+            move_validity = analyze.is_player_move_valid(self.current_player, self.current_player_in_check_status, player_move)
+            
+
+            # If the move isn't valid request a different move from the user
+
+. 
+
         #     - If the move is valid update the following game variables. 
         #         - update the pieces array of the game board to reflect the move. 
         #         - update self.current_player
         #         - update self.current_player_in_check
         #         - update self.current_player_in_checkmate
-        #     - If the move isn't valid request a different move from the user
+        #     
+        # 
+        # 
+
         # 4. Repeate player turn until current_player is in checkmate
         # 5. call Game over function. Display a message to the winner. 
 
-    
 
 
 
@@ -69,3 +91,4 @@ class Game:
         return ([blue_royals] + [blue_pawns] +
                 empty_squares  +
                 [red_pawns] + [red_royals])
+
