@@ -1,10 +1,8 @@
 import unittest
 # Boards imports
 from chess.gameboard.game_board import GameBoard
-
 # Piece imports
 from chess.pieces.knight import Knight
-
 from tests.test_resources.test_boards import test_boards
 inital_setup = test_boards[0]
 mvmt_board_1 = test_boards[1]

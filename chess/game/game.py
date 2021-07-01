@@ -17,8 +17,8 @@ class Game:
         self.current_player = "red" 
 
         # create an HandlePlayerInput instance. This will be used to get, and verify user input.
-        input_handler = HandlePlayerInput() 
-    
+        input_handler = HandlePlayerInput()     
+        
         # create an AnalyzeBoard instance. Used to monitor 'check' and 'checkmate'  
         analyze = AnalyzeBoard()
         self.current_player_in_check_status = analyze.is_color_in_check(self.current_player, self.game_board)
@@ -54,22 +54,13 @@ class Game:
 
             # If the move isn't valid request a different move from the user
             # display the "invalid_msg" and then get another input from the user. 
-            
-        
         #     - If the move is valid update the following game variables. 
         #         - update the pieces array of the game board to reflect the move. 
         #         - update self.current_player
         #         - update self.current_player_in_check
         #         - update self.current_player_in_checkmate
-        #     
-        # 
-        # 
-
         # 4. Repeate player turn until current_player is in checkmate
         # 5. call Game over function. Display a message to the winner. 
-
-
-
 
     def get_inital_pieces(self):
         init_royal_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]

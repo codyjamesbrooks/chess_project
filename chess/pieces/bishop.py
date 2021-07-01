@@ -2,7 +2,7 @@ from chess.pieces.piece import Piece
 from chess.gameboard.empty_space import Empty_Space
 
 class Bishop(Piece):
-    def __init__(self, color, position=None):
+    def __init__(self, color, position):
         super().__init__(color, position)
         self.name = "Bishop"
         self.alias = "B"
