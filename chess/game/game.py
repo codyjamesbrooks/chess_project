@@ -51,12 +51,11 @@ class Game:
 
             # update move_validity using the confirmed player move dict
             move_validity = analyze.is_player_move_valid(self.current_player, self.current_player_in_check_status, player_move)
-            
 
             # If the move isn't valid request a different move from the user
-
-. 
-
+            # display the "invalid_msg" and then get another input from the user. 
+            
+        
         #     - If the move is valid update the following game variables. 
         #         - update the pieces array of the game board to reflect the move. 
         #         - update self.current_player
